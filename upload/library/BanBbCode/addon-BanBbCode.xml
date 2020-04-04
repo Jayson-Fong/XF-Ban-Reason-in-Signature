@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="BanBbCode" title="[JF] Ban Reasons" version_string="1.0.0" version_id="1" url="mailto://contact@jaysonfong.me" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates/>
+  <admin_template_modifications/>
+  <code_events/>
+  <code_event_listeners/>
+  <cron/>
+  <email_templates/>
+  <email_template_modifications/>
+  <optiongroups/>
+  <permissions>
+    <permission_groups/>
+    <permissions/>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="banbbcode_no_ban_reason_supplied" version_id="1" version_string="1.0.0"><![CDATA[No Reason Supplied]]></phrase>
+    <phrase title="banbbcode_banned_forever" version_id="1" version_string="1.0.0"><![CDATA[Banned Forever]]></phrase>
+    <phrase title="banbbcode_banned_until" version_id="1" version_string="1.0.0"><![CDATA[Banned Until]]></phrase>
+    <phrase title="banbbcode_for" version_id="1" version_string="1.0.0"><![CDATA[For]]></phrase>
+  </phrases>
+  <route_prefixes/>
+  <style_properties/>
+  <templates/>
+  <public_template_modifications>
+    <modification template="message" modification_key="banbbcode_ban_reason_message" description="Adds Ban Reasons to Messages" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<xen:if is="{$visitor.content_show_signature} && {$message.signature}">]]></find>
+      <replace><![CDATA[<xen:if is="{$message.is_banned}">
+<xen:set var="$banEndDate"><xen:callback class="BanBbCode_BanInfo" method="getBanEndDate" params="{$message.user_id}"></xen:callback></xen:set>
+<xen:set var="$banReason"><xen:callback class="BanBbCode_BanInfo" method="getBanReason" params="{$message.user_id}"></xen:callback></xen:set>
+        <div class="bbCodeQuote baseHtml">
+            <blockquote class="quoteContainer">
+                {xen:if '{$banEndDate} == 0', '{xen:phrase banbbcode_banned_forever}', '{xen:phrase banbbcode_banned_until}: {xen:date $banEndDate}'} {xen:phrase banbbcode_for}: {xen:raw $banReason}
+            </blockquote>
+        </div>
+    </xen:if>
+$0]]></replace>
+    </modification>
+  </public_template_modifications>
+  <bb_code_media_sites/>
+  <bb_codes/>
+</addon>
